@@ -1,6 +1,6 @@
 import { Show } from "../Show"
 
-export const For = <T extends Object>({
+export const For = <T extends object>({
   each = [],
   children,
 }: {
