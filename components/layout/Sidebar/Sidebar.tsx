@@ -44,7 +44,7 @@ export const Sidebar = ({ children }: React.PropsWithChildren) => {
         handleOpenSidebar={openSidebar}
       />
 
-      <main className="flex flex-1">{children}</main>
+      <main className="flex flex-grow flex-col">{children}</main>
     </div>
   )
 }

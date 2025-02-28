@@ -1,24 +1,11 @@
 "use client"
 
-import { Button } from "@heroui/react"
+import { TaskTable } from "@/components/tasks"
 
 export default function Home() {
   return (
-    <div className="app-content">
-      <div className="flex items-center gap-4">
-        <Button color="primary" size="md">
-          Primary
-        </Button>
-        <Button color="success" size="md">
-          Success
-        </Button>
-        <Button color="warning" size="md">
-          Warning
-        </Button>
-        <Button color="danger" size="md">
-          Danger
-        </Button>
-      </div>
+    <div className="p-4">
+      <TaskTable />
     </div>
   )
 }
