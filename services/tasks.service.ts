@@ -8,12 +8,9 @@ export const getTasks = async (
   filter: Record<string, any>,
 ): Promise<Task[]> => {
   const query = objectToQueryString(filter)
-  return await httpClient<Task[]>(
-    `${API_ENDPOINT}/list${!!query && `?${query}`}`,
-    {
-      method: "GET",
-    },
-  )
+  return await httpClient<Task[]>(`${API_ENDPOINT}/list?${query}`, {
+    method: "GET",
+  })
 }
 
 export const getTask = async (taskId: string): Promise<Task> => {
