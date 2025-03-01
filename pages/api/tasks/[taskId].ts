@@ -31,7 +31,7 @@ function getTaskById(
 }
 
 function updateTask(req: NextApiRequest, res: NextApiResponse, taskId: string) {
-  const { title, description, status, subTasks } = req.body
+  const { title, description, status, subTasks, deadline } = req.body
   const taskIndex = data.findIndex((t) => t.id === taskId)
 
   if (taskIndex === -1) {
@@ -44,6 +44,7 @@ function updateTask(req: NextApiRequest, res: NextApiResponse, taskId: string) {
     description: description || data[taskIndex].description,
     status: status || data[taskIndex].status,
     subTasks: subTasks || data[taskIndex].subTasks,
+    deadline: deadline || data[taskIndex].deadline,
     updatedAt: new Date(),
   }
 

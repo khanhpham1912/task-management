@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { v7 as uuidv7 } from "uuid"
 
 // Fake data
-export let data: Task[] = [
+export const data: Task[] = [
   {
     id: uuidv7(),
     title: "Implement authentication",
@@ -158,7 +158,7 @@ function getTasks(req: NextApiRequest, res: NextApiResponse) {
 }
 
 function createTask(req: NextApiRequest, res: NextApiResponse) {
-  const { title, description, subTasks, status } = req.body
+  const { title, description, subTasks, status, deadline } = req.body
 
   if (!title) {
     return res.status(400).json({ message: "Title are required" })
@@ -169,6 +169,7 @@ function createTask(req: NextApiRequest, res: NextApiResponse) {
     title,
     description,
     status,
+    deadline,
     createdAt: new Date(),
     updatedAt: new Date(),
     subTasks: subTasks || [],

@@ -5,6 +5,7 @@ export interface Task {
   status: ETaskStatus
   createdAt: Date
   updatedAt: Date
+  deadline?: Date
   subTasks?: SubTasks[]
 }
 
@@ -13,6 +14,7 @@ export interface SubTasks {
   title: string
   status: ETaskStatus
   createdAt: Date
+  deadline?: Date
   updatedAt: Date
 }
 

@@ -1,7 +1,6 @@
 // components
 import { For } from "@/components/commons"
 import Link from "next/link"
-import Image from "next/image"
 
 // utils
 import { cn } from "@/utils/classNames"
@@ -27,13 +26,8 @@ export const DesktopView = ({
     <>
       <div className="hidden h-full lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-          <div className="flex h-16 shrink-0 items-center">
-            <Image
-              alt="Your Company"
-              src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-              width={32}
-              height={32}
-            />
+          <div className="flex items-center justify-center pt-6 text-3xl font-bold text-primary">
+            PMS
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">

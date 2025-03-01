@@ -1,5 +1,5 @@
 // components
-import { Col, Flex, Row } from "@/components/commons"
+import { Col, DatePicker, Flex, Row } from "@/components/commons"
 import {
   Button,
   Form,
@@ -21,6 +21,8 @@ import { statusOptions } from "../constant"
 
 // hooks
 import { useTaskModal } from "./logic"
+import { Controller } from "react-hook-form"
+import { displayDate } from "@/utils/common"
 
 export const TaskModal = ({
   isOpen,
@@ -31,8 +33,15 @@ export const TaskModal = ({
   onOpenChange: (isOpen: boolean) => void
   task?: Task
 }) => {
-  const { isEdit, register, handleSubmit, onSubmit, handleOpenChange } =
-    useTaskModal({ task, onOpenChange })
+  const {
+    isEdit,
+    register,
+    handleSubmit,
+    onSubmit,
+    handleOpenChange,
+    control,
+    getValues,
+  } = useTaskModal({ task, onOpenChange })
   return (
     <Modal
       isOpen={isOpen}
@@ -78,7 +87,7 @@ export const TaskModal = ({
                         isRequired
                         labelPlacement="outside"
                         variant="bordered"
-                        className="max-w-xs"
+                        className="w-full"
                         label="Status"
                         radius="sm"
                         placeholder="Select status"
@@ -89,17 +98,46 @@ export const TaskModal = ({
                           </SelectItem>
                         ))}
                       </Select>
+                      <Controller
+                        name="deadline"
+                        control={control}
+                        render={({ field }) => (
+                          <DatePicker
+                            label="Due date"
+                            labelPlacement="outside"
+                            variant="bordered"
+                            radius="sm"
+                            value={field.value}
+                            onChange={(date) => field.onChange(date)}
+                            onBlur={field.onBlur}
+                            ref={field.ref}
+                            granularity="day"
+                          />
+                        )}
+                      />
                     </Flex>
                   </Col>
                 </Row>
               </ModalBody>
               <ModalFooter className="w-full">
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" type="submit">
-                  {isEdit ? "Save" : "Create task"}
-                </Button>
+                <Flex justify={"between"} align={"center"} className="w-full">
+                  <Flex
+                    layout={"vertical"}
+                    gap={1}
+                    className="text-xs text-neutral-500"
+                  >
+                    <span>{`Updated at: ${displayDate(getValues("updatedAt"))}`}</span>
+                    <span>{`Created at: ${displayDate(getValues("createdAt"))}`}</span>
+                  </Flex>
+                  <Flex align={"center"} justify={"center"} gap={2}>
+                    <Button color="danger" variant="flat" onPress={onClose}>
+                      Close
+                    </Button>
+                    <Button color="primary" type="submit">
+                      {isEdit ? "Save" : "Create task"}
+                    </Button>
+                  </Flex>
+                </Flex>
               </ModalFooter>
             </Form>
           </>

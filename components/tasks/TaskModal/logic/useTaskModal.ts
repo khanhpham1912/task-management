@@ -19,7 +19,7 @@ export const useTaskModal = ({
   task?: Task
   onOpenChange: (isOpen: boolean) => void
 }) => {
-  const { register, handleSubmit, reset } = useForm<Task>({
+  const { register, handleSubmit, reset, control, getValues } = useForm<Task>({
     defaultValues: { status: ETaskStatus.TODO },
   })
   const queryClient = useQueryClient()
@@ -81,5 +81,13 @@ export const useTaskModal = ({
     }
   }, [task])
 
-  return { isEdit, register, handleSubmit, onSubmit, handleOpenChange }
+  return {
+    isEdit,
+    register,
+    handleSubmit,
+    onSubmit,
+    handleOpenChange,
+    control,
+    getValues,
+  }
 }
