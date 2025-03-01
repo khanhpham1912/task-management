@@ -68,6 +68,7 @@ export const TaskTable = () => {
             "overflow-scroll",
             "p-0",
           ],
+          tr: "h-14",
           th: ["bg-white", "text-default-500", "border-b", "border-divider"],
           td: [
             // changing the rows border radius
