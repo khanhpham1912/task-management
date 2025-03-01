@@ -15,7 +15,6 @@ import {
 import { statusOptions } from "../../constant"
 
 interface FiltererProps {
-  searchValue: string
   onSearchChange: (value: string) => void
   statusFilter?: Selection
   handleChangeFilterStatus: (keys: Selection) => void
@@ -23,7 +22,6 @@ interface FiltererProps {
 }
 
 export const Filterer = ({
-  searchValue,
   onSearchChange,
   statusFilter,
   handleChangeFilterStatus,
@@ -43,7 +41,6 @@ export const Filterer = ({
           startContent={
             <MagnifyingGlassIcon className="size-4 text-default-400" />
           }
-          value={searchValue}
           variant="bordered"
           onChange={onSearchChange}
         />

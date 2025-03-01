@@ -1,7 +1,16 @@
 export interface Task {
   id: string
   title: string
-  description: string
+  description?: string
+  status: ETaskStatus
+  createdAt: Date
+  updatedAt: Date
+  subTasks?: SubTasks[]
+}
+
+export interface SubTasks {
+  id: string
+  title: string
   status: ETaskStatus
   createdAt: Date
   updatedAt: Date

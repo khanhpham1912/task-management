@@ -9,6 +9,7 @@ import {
   TableRow,
   TableCell,
   Pagination,
+  Spinner,
 } from "@heroui/react"
 
 // icons
@@ -22,18 +23,18 @@ import { Filterer } from "./ui"
 export const TaskTable = () => {
   const {
     tasks,
-    searchValue,
     page,
     statusFilter,
     selectedTask,
     showTaskModal,
+    isLoading,
     handleChangeFilterStatus,
     setPage,
     renderCell,
     onSearchChange,
     handleClickRow,
     handleCreateTask,
-    onShowTaskModalChange,
+    handleShowTaskModalChange,
   } = useTaskTable()
 
   const bottomContent = React.useMemo(() => {
@@ -58,6 +59,7 @@ export const TaskTable = () => {
         isHeaderSticky
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
+        rowHeight={70}
         classNames={{
           wrapper: [
             "max-h-[calc(100vh-13rem)]",
@@ -81,7 +83,6 @@ export const TaskTable = () => {
         }}
         topContent={
           <Filterer
-            searchValue={searchValue}
             onSearchChange={onSearchChange}
             statusFilter={statusFilter}
             handleChangeFilterStatus={handleChangeFilterStatus}
@@ -101,11 +102,22 @@ export const TaskTable = () => {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No tasks"} items={tasks}>
+        <TableBody
+          emptyContent={"No tasks"}
+          items={tasks}
+          loadingContent={<Spinner />}
+          loadingState={isLoading ? "loading" : "idle"}
+        >
           {(task) => (
-            <TableRow key={task.id} onClick={() => handleClickRow(task)}>
+            <TableRow
+              key={task.id}
+              onClick={() => handleClickRow(task)}
+              className="hover:bg-neutral-50 active:bg-neutral-100"
+            >
               {(columnKey) => (
-                <TableCell>{renderCell(task, columnKey)}</TableCell>
+                <TableCell>
+                  <>{renderCell(task, columnKey)}</>
+                </TableCell>
               )}
             </TableRow>
           )}
@@ -113,7 +125,7 @@ export const TaskTable = () => {
       </Table>
       <TaskModal
         isOpen={showTaskModal}
-        onOpenChange={onShowTaskModalChange}
+        onOpenChange={handleShowTaskModalChange}
         task={selectedTask}
       />
     </>

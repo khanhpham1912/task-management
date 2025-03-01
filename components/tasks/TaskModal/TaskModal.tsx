@@ -14,7 +14,7 @@ import {
 } from "@heroui/react"
 
 // models
-import { ETaskStatus, Task } from "@/models/task"
+import { Task } from "@/models/task"
 
 // constants
 import { statusOptions } from "../constant"
@@ -78,7 +78,6 @@ export const TaskModal = ({
                         isRequired
                         labelPlacement="outside"
                         variant="bordered"
-                        defaultSelectedKeys={[ETaskStatus.TODO]}
                         className="max-w-xs"
                         label="Status"
                         radius="sm"

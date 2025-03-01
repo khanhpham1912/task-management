@@ -52,6 +52,7 @@ export const useTaskModal = ({
 
   const onSubmit: SubmitHandler<Task> = useCallback(
     (data) => {
+      console.log("data:", data)
       if (isEdit) {
         if (!!task?.id) {
           updateTaskMutation.mutate(data)
@@ -63,15 +64,20 @@ export const useTaskModal = ({
     [isEdit, task],
   )
 
-  const handleOpenChange = useCallback((isOpen: boolean) => {
-    if (!isOpen) {
-      reset()
-    }
-    onOpenChange(isOpen)
-  }, [])
+  const handleOpenChange = useCallback(
+    (isOpen: boolean) => {
+      if (!isOpen) {
+        reset()
+      }
+      onOpenChange(isOpen)
+    },
+    [reset, onOpenChange],
+  )
 
   useEffect(() => {
-    reset(task)
+    if (!!task) {
+      reset(task, { keepDefaultValues: true })
+    }
   }, [task])
 
   return { isEdit, register, handleSubmit, onSubmit, handleOpenChange }

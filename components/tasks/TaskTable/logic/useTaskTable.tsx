@@ -2,7 +2,7 @@
 import { useBoolean, useObject } from "@/hooks"
 import { Task } from "@/models/task"
 import { deleteTask, getTasks } from "@/services/tasks.service"
-import { Chip, Selection, SharedSelection } from "@heroui/react"
+import { Chip, ChipProps, Selection, SharedSelection } from "@heroui/react"
 import { toast } from "sonner"
 
 // hooks
@@ -11,10 +11,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 // icons
 import { TrashIcon } from "@heroicons/react/24/outline"
+import { statusColors } from "../../constant"
 
 export const useTaskTable = () => {
   const queryClient = useQueryClient()
-  const [searchValue, setSearchValue] = useState("")
   const [page, setPage] = useState(1)
   const [statusFilter, setStatusFilter] = useState<Selection>()
 
@@ -37,15 +37,9 @@ export const useTaskTable = () => {
   })
 
   const tasks = useMemo(() => tasksQuery?.data || [], [tasksQuery])
-  console.log("tasks:", tasks)
 
   const onSearchChange = useCallback((value: string) => {
-    if (value) {
-      updateFilterParams({ title: value })
-      setPage(1)
-    } else {
-      setSearchValue("")
-    }
+    updateFilterParams({ title: value })
   }, [])
 
   const handleClickRow = useCallback((task: Task) => {
@@ -82,25 +76,31 @@ export const useTaskTable = () => {
   const renderCell = useCallback((task: Task, columnKey: string | Key) => {
     if (typeof columnKey === "bigint") return
     // cannot get the value with key like index
-    const cellValue = (task as any)?.[columnKey]
+    const cellValue = task[columnKey as keyof Task]
 
     switch (columnKey) {
       case "status":
         return (
           <Chip
             className="gap-1 border-none capitalize text-default-600"
-            color="default"
+            color={statusColors[task.status] as ChipProps["color"]}
             size="sm"
+            variant="dot"
           >
-            {cellValue}
+            {typeof cellValue === "string"
+              ? cellValue.replace("_", " ").toLowerCase()
+              : ""}
           </Chip>
         )
       case "actions":
         return (
-          <div className="relative flex items-center justify-end gap-2">
+          <div className="relative flex items-center justify-center gap-2">
             <TrashIcon
-              className="size-6 hover:text-danger"
-              onClick={() => handleRemoveTask(task.id)}
+              className="size-4 cursor-pointer text-neutral-600 hover:text-danger"
+              onClick={(e) => {
+                e.stopPropagation()
+                handleRemoveTask(task.id)
+              }}
             />
           </div>
         )
@@ -109,19 +109,30 @@ export const useTaskTable = () => {
     }
   }, [])
 
+  const handleShowTaskModalChange = useCallback(
+    (isOpen: boolean) => {
+      // handle case close in edit mode => need to clear selected task
+      if (!isOpen && !!selectedTask) {
+        setSelectedTask(undefined)
+      }
+      onShowTaskModalChange(isOpen)
+    },
+    [selectedTask],
+  )
+
   return {
     tasks,
-    searchValue,
     page,
     statusFilter,
     selectedTask,
     showTaskModal,
+    isLoading: tasksQuery.isFetching,
     handleChangeFilterStatus,
     setPage,
     renderCell,
     onSearchChange,
     handleClickRow,
     handleCreateTask,
-    onShowTaskModalChange,
+    handleShowTaskModalChange,
   }
 }
