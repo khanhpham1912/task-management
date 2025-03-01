@@ -55,7 +55,7 @@ export const TaskModal = ({
             <Form onSubmit={handleSubmit(onSubmit)}>
               <ModalBody className="w-full pt-6">
                 <Row gutter={[4, 4]} className="w-full">
-                  <Col xs={12} lg={8}>
+                  <Col xs={12} lg={8} className="col-span-12">
                     <Flex layout="vertical" gap={4}>
                       <Input
                         {...register("title")}
@@ -80,7 +80,7 @@ export const TaskModal = ({
                       />
                     </Flex>
                   </Col>
-                  <Col xs={12} lg={4}>
+                  <Col xs={12} lg={4} className="col-span-12">
                     <Flex layout="vertical" gap={4}>
                       <Select
                         {...register("status")}
