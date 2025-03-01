@@ -1,23 +1,13 @@
 "use client"
 
-import { Button } from "@heroui/react"
+import { EmployeeChart, RevenueChart } from "@/components/dashboard"
 
 export default function Home() {
   return (
     <div className="app-content">
-      <div className="flex items-center gap-4">
-        <Button color="primary" size="md">
-          Primary
-        </Button>
-        <Button color="success" size="md">
-          Success
-        </Button>
-        <Button color="warning" size="md">
-          Warning
-        </Button>
-        <Button color="danger" size="md">
-          Danger
-        </Button>
+      <EmployeeChart />
+      <div className="flex items-center justify-between gap-4">
+        <RevenueChart />
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 // models
-import { Task } from "@/models/task"
+import { ETaskStatus, Task } from "@/models/task"
 
 // services
 import { createTask, updateTask } from "@/services/tasks.service"
@@ -19,7 +19,9 @@ export const useTaskModal = ({
   task?: Task
   onOpenChange: (isOpen: boolean) => void
 }) => {
-  const { register, handleSubmit, reset } = useForm<Task>()
+  const { register, handleSubmit, reset } = useForm<Task>({
+    defaultValues: { status: ETaskStatus.TODO },
+  })
   const queryClient = useQueryClient()
 
   const isEdit = useMemo(() => {
@@ -52,7 +54,6 @@ export const useTaskModal = ({
 
   const onSubmit: SubmitHandler<Task> = useCallback(
     (data) => {
-      console.log("data:", data)
       if (isEdit) {
         if (!!task?.id) {
           updateTaskMutation.mutate(data)

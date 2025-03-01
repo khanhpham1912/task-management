@@ -12,11 +12,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     case "DELETE":
       return deleteTask(req, res, taskId as string)
     default:
-      return res.status(405).json({ message: "Method Not Allowed" })
+      return res.status(405).json({ message: "Not Allowed" })
   }
 }
 
-// Get a task by ID
 function getTaskById(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -31,7 +30,6 @@ function getTaskById(
   return res.status(200).json(task)
 }
 
-// Update a task
 function updateTask(req: NextApiRequest, res: NextApiResponse, taskId: string) {
   const { title, description, status, subTasks } = req.body
   const taskIndex = data.findIndex((t) => t.id === taskId)
@@ -52,7 +50,6 @@ function updateTask(req: NextApiRequest, res: NextApiResponse, taskId: string) {
   return res.status(200).json(data[taskIndex])
 }
 
-// Delete a task
 function deleteTask(req: NextApiRequest, res: NextApiResponse, taskId: string) {
   const taskIndex = data.findIndex((t) => t.id === taskId)
 
